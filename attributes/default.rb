@@ -1,3 +1,4 @@
-default['chef-install-scripts']['depots'] = [
-  {:replication_svn_link => 'http://svn.com/svn/sourcecode', :user_svn => 'user', :passwd_svn => 'passwd', :directory_replication => '/var/sourcecode', :user => 'root', :group => 'root', :mode => '0755'}
-]
+default['chef-install-scripts']['databag']['encrypted'] = false
+default['chef-install-scripts']['databag']['secret_path'] = '/etc/chef/encrypted_data_bag_secret'
+default['chef-install-scripts']['databag']['name'] = 'chef-install-scripts'
+default['chef-install-scripts']['databag']['item'] = 'scripts'

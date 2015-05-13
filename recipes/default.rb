@@ -12,7 +12,22 @@ package 'subversion' do
    action :install
 end
 
-node['chef-install-scripts']['depots'].each do |depot|
+
+if node['chef-install-scripts']['databag']['encrypted'] == true
+  secret = Chef::EncryptedDataBagItem.load_secret(node['chef-install-scripts']['databag']['secret_path'])
+  item =  Chef::EncryptedDataBagItem.load(node['chef-install-scripts']['databag']['name'], node['chef-install-scripts']['databag']['item'], secret)
+else
+  item = data_bag_item(node['chef-install-scripts']['databag']['name'], node['chef-install-scripts']['databag']['item'])
+end
+
+puts node['chef-install-scripts']['databag']['name']
+puts node['chef-install-scripts']['databag']['item']
+puts "#{node['fqdn']}"
+puts "ITEM"
+puts item
+
+
+item["#{node['fqdn']}"].each do |depot|
  puts depot
 
  directory depot['directory_replication'] do
