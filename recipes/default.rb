@@ -12,29 +12,34 @@ package 'subversion' do
    action :install
 end
 
-directory node['chef-install-scripts']['directory_replication'] do
-   owner "#{node['chef-install-scripts']['user']}"
-   group "#{node['chef-install-scripts']['group']}"
-   mode "#{node['chef-install-scripts']['mode']}"
+node['chef-install-scripts']['depots'].each do |depot|
+ puts depot
+
+ directory depot['directory_replication'] do
+   owner "#{depot['user']}"
+   group "#{depot['group']}"
+   mode "#{depot['mode']}"
    action :create
    recursive true
-end
+ end
 
-subversion "replication" do
-    repository "#{node['chef-install-scripts']['replication_svn_link']}"
+ subversion "replication" do
+    repository "#{depot['replication_svn_link']}"
     revision "HEAD"
-    destination "#{node['chef-install-scripts']['directory_replication']}"
-    svn_username "#{node['chef-install-scripts']['user_svn']}"
-    svn_password "#{node['chef-install-scripts']['passwd_svn']}"
+    destination "#{depot['directory_replication']}"
+    svn_username "#{depot['user_svn']}"
+    svn_password "#{depot['passwd_svn']}"
     action :sync
-end
+ end
 
-chmod = "chown -R #{node['chef-install-scripts']['user']}:#{node['chef-install-scripts']['group']} #{node['chef-install-scripts']['directory_replication']}"
+ chmod = "chown -R #{depot['user']}:#{depot['group']} #{depot['directory_replication']}"
 
-bash 'chown_replication_directory' do
+ bash 'chown_replication_directory' do
    user 'root'
-   cwd "#{node['chef-install-scripts']['directory_replication']}"
+   cwd "#{depot['directory_replication']}"
    code <<-EOH
       #{chmod}
    EOH
+ end
+
 end

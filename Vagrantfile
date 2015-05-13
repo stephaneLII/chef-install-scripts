@@ -88,15 +88,6 @@ config.vm.box_url = "http://localhost/box/ubuntu-14.04-dev-virtualbox-chef.box"
 
   config.vm.provision :chef_solo do |chef|
      chef.json = {
-      "chef-install-scripts" => {
-           "replication_svn_link" => "http://svn.example.com",
-           "user_svn" => "user",
-           "passwd_svn" => "passwd",
-           "directory_replication" => "/var/directory",
-           "user" => "root",
-           "group" => "root",
-           "mode" => "0755"
-      }
     }
 
     chef.run_list = [
