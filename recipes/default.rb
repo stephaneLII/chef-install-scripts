@@ -20,13 +20,6 @@ else
   item = data_bag_item(node['chef-install-scripts']['databag']['name'], node['chef-install-scripts']['databag']['item'])
 end
 
-puts node['chef-install-scripts']['databag']['name']
-puts node['chef-install-scripts']['databag']['item']
-puts "#{node['fqdn']}"
-puts "ITEM"
-puts item
-
-
 item["#{node['fqdn']}"].each do |depot|
  puts depot
 
